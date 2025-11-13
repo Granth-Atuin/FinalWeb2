@@ -1,63 +1,67 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { load, save } from '../utils/storage'
+import { createContext, useContext, useEffect, useState } from "react"
+import { load, save } from "../utils/storage"
 
 const CartContext = createContext(null)
-
 export function CartProvider({ children }) {
-    const [items, setItems] = useState(() => load('cart:v1', []))
-    useEffect(() => {
-        save('cart:v1', items)
-    }, [items])
-    const value = useMemo(() => {
-        return {
-            items,
-            add(product, qty = 1) {
-                setItems((prev) => {
-                    const index = prev.findIndex((i) => i.id === product.id)
-                    if (index >= 0) {
-                        const clone = [...prev]
-                            clone[index] = {
-                                ...clone[index],
-                                qty: clone[index].qty + qty,
-                            }
-                        return clone
-                    }
+    const [items, setItems] = useState(() => load("cart:v1", []))
+        useEffect(() => {
+            save("cart:v1", items)
+        }, [items])
+        const add = (product, qty = 1) => {
+            if (!product || !product.id) return
+            setItems((prev) => {
+                const index = prev.findIndex((p) => p.id === product.id)
+                if (index !== -1) {
+                    const clone = [...prev]
+                        clone[index] = {
+                            ...clone[index],
+                            qty: clone[index].qty + qty,
+                        }
+                    return clone
+                }
                 return [
-                ...prev,
-                {
-                    id: product.id,
-                    nombre: product.nombre,
-                    precio: product.precio,
-                    qty,
-                },
+                    ...prev,
+                    {
+                        id: product.id,
+                        nombre: product.nombre,
+                        precio: Number(product.precio ?? 0),
+                        qty,
+                    },
                 ]
-                })
-            },
-            update(id, qty) {
-                setItems((prev) =>
-                prev.map((i) =>
-                    i.id === id ? { ...i, qty: Math.max(1, qty) } : i
-                )
-                )
-            },
-            remove(id) {
-                setItems((prev) => prev.filter((i) => i.id !== id))
-            },
-            clear() {
-                setItems([])
-            },
-            totalQty: items.reduce((acc, i) => acc + i.qty, 0),
-            total: items.reduce((acc, i) => acc + i.precio * i.qty, 0),
+            })
         }
-    }, [items])
+    const update = (id, qty) => {
+        setItems((prev) =>
+        prev.map((p) =>
+        p.id === id ? { ...p, qty: Math.max(1, qty) } : p
+        )
+        )
+    }
+    const remove = (id) => {
+        setItems((prev) => prev.filter((p) => p.id !== id))
+    }
+    const clear = () => {
+        setItems([])
+    }
+    const totalQty = items.reduce((acc, p) => acc + p.qty, 0)
+    const total = items.reduce((acc, p) => acc + p.qty * p.precio, 0)
+    const value = {
+        items,
+        add,
+        update,
+        remove,
+        clear,
+        totalQty,
+        total,
+    }
     return (
         <CartContext.Provider value={value}>
             {children}
         </CartContext.Provider>
     )
-}   
+}
 export function useCart() {
     const ctx = useContext(CartContext)
-    if (!ctx) throw new Error('CartProvider missing')
+    if (!ctx) throw new Error("CartProvider missing")
     return ctx
 }
