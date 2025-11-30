@@ -2,7 +2,7 @@ import useFetch from "../hooks/useFetch"
 
 export default function Categories() {
 	const { data: rawCategories, loading } = useFetch(
-		"https://ecommerce.fedegonzalez.com/categories"
+		"https://ecommerce.fedegonzalez.com/categories/"
 	)
 	const categories = Array.isArray(rawCategories) ? rawCategories : []
 	return (

@@ -2,12 +2,20 @@ import useFetch from "../hooks/useFetch"
 
 export default function Products() {
 	const { data: rawProducts, loading } = useFetch(
-		"https://ecommerce.fedegonzalez.com/products"
+		"https://ecommerce.fedegonzalez.com/products/"
 	)
 	const products = Array.isArray(rawProducts) ? rawProducts : []
 	return (
 		<section className="space-y-4">
-			<h1 className="text-xl font-semibold">Productos</h1>
+			<div className="flex justify-between items-center">
+				<h1 className="text-xl font-semibold">Productos</h1>
+				<a
+					href="/admin/productos/nuevo"
+					className="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+				>
+					Nuevo Producto
+				</a>
+			</div>
 			{loading && <div className="text-sm">Cargando productos...</div>}
 			<div className="overflow-x-auto">
 				<table className="min-w-full text-sm border">

@@ -7,47 +7,67 @@ export default function ProductCard({ product }) {
 		product.pictures && product.pictures.length > 0
 			? product.pictures[0]
 			: null
-	const handleAdd = () => {
+
+	const hasDiscount = product.discount > 0
+	const finalPrice = hasDiscount
+		? product.price * (1 - product.discount / 100)
+		: product.price
+
+	const handleAdd = (e) => {
+		e.preventDefault()
 		add(
 			{
 				id: product.id,
 				nombre: product.title,
-				precio: product.price,
+				precio: finalPrice,
 			},
 			1
 		)
 	}
+
 	return (
-		<article className="bg-white rounded-lg border p-3 flex flex-col">
-			<Link
-				to={`/producto/${product.id}`}
-				className="aspect-square overflow-hidden rounded bg-gray-100 flex items-center justify-center"
-			>
+		<Link
+			to={`/producto/${product.id}`}
+			className="group block bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden hover:border-zinc-700 transition-colors min-w-[160px] w-[160px] relative"
+		>
+			{hasDiscount && (
+				<div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded z-10">
+					-{product.discount}%
+				</div>
+			)}
+			<div className="aspect-square bg-zinc-800 relative overflow-hidden">
 				{picture ? (
 					<img
 						src={picture}
 						alt={product.title}
-						className="w-full h-full object-cover"
+						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
 					/>
 				) : (
-					<span className="text-xs text-gray-500">Sin imagen</span>
+					<div className="w-full h-full flex items-center justify-center text-zinc-600 text-xs">
+						Sin imagen
+					</div>
 				)}
-			</Link>
-			<h3 className="mt-3 font-medium line-clamp-1">{product.title}</h3>
-			<p className="text-sm text-gray-600 line-clamp-2">
-				{product.description}
-			</p>
-			<div className="mt-auto flex items-center justify-between pt-3">
-				<span className="font-semibold">
-					${Number(product.price).toFixed(2)}
-				</span>
 				<button
 					onClick={handleAdd}
-					className="text-sm bg-blue-600 text-white px-3 py-1 rounded"
+					className="absolute bottom-2 right-2 bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 hover:bg-purple-500"
+					title="Agregar al carrito"
 				>
-					Agregar
+					+
 				</button>
 			</div>
-		</article>
+			<div className="p-3">
+				<h3 className="text-sm font-medium text-gray-200 line-clamp-1 mb-1" title={product.title}>{product.title}</h3>
+				<div className="flex flex-col">
+					{hasDiscount && (
+						<span className="text-xs text-gray-500 line-through">
+							${Number(product.price).toFixed(2)}
+						</span>
+					)}
+					<span className="text-xs text-purple-400 font-semibold">
+						${Number(finalPrice).toFixed(2)}
+					</span>
+				</div>
+			</div>
+		</Link>
 	)
 }
