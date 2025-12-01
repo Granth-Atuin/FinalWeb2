@@ -20,6 +20,7 @@ export default function ProductCard({ product }) {
 				id: product.id,
 				nombre: product.title,
 				precio: finalPrice,
+				image: picture
 			},
 			1
 		)

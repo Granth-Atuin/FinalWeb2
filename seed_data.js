@@ -5,7 +5,8 @@ const BASE_URL = 'https://ecommerce.fedegonzalez.com';
 
 const categories = [
     "verduleria", "fruteria", "carniceria", "congelados",
-    "electrodomesticos", "tecnologia", "bebidas", "galletas"
+    "electrodomesticos", "tecnologia", "bebidas", "galletas",
+    "jugueteria", "limpieza", "perfumeria", "panaderia"
 ];
 
 const productsData = {
@@ -16,7 +17,11 @@ const productsData = {
     "electrodomesticos": ["Licuadora", "Batidora", "Tostadora", "Pava Electrica", "Cafetera", "Microondas", "Horno Electrico", "Plancha", "Aspiradora", "Secador de Pelo", "Planchita", "Afeitadora", "Depiladora", "Ventilador", "Estufa", "Aire Acondicionado", "Lavarropas", "Heladera", "Freezer", "Lavavajillas"],
     "tecnologia": ["Celular Samsung", "Celular Motorola", "Celular iPhone", "Tablet", "Notebook", "Monitor", "Teclado", "Mouse", "Auriculares", "Parlante Bluetooth", "Smart Watch", "Cargador", "Cable USB", "Funda Celular", "Vidrio Templado", "Pendrive", "Disco Externo", "Router", "Impresora", "Cartucho"],
     "bebidas": ["Coca Cola", "Sprite", "Fanta", "Pepsi", "7Up", "Agua Mineral", "Agua con Gas", "Jugo Naranja", "Jugo Manzana", "Cerveza Quilmes", "Cerveza Brahma", "Cerveza Stella", "Vino Malbec", "Vino Cabernet", "Vino Blanco", "Fernet", "Gancia", "Campari", "Whisky", "Vodka"],
-    "galletas": ["Oreo", "Chocolinas", "Rumba", "Amor", "Mellizas", "Criollitas", "Traviata", "Express", "Rex", "Kesitas", "Sonrisas", "Merengadas", "Opera", "Frutigran", "Granix", "Cerealitas", "Pepitos", "Toddy", "Bagley", "Terrabusi"]
+    "galletas": ["Oreo", "Chocolinas", "Rumba", "Amor", "Mellizas", "Criollitas", "Traviata", "Express", "Rex", "Kesitas", "Sonrisas", "Merengadas", "Opera", "Frutigran", "Granix", "Cerealitas", "Pepitos", "Toddy", "Bagley", "Terrabusi"],
+    "jugueteria": ["Muñeca Barbie", "Autito Hot Wheels", "Lego", "Pelota de Futbol", "Juego de Mesa", "Rompecabezas", "Peluche", "Pistola de Agua", "Muñeco de Accion", "Cocina de Juguete", "Bicicleta", "Monopatin", "Patines", "Dron de Juguete", "Slime", "Masa para Modelar", "Juego de Cartas", "Instrumento Musical Juguete", "Disfraz", "Bloques de Construccion"],
+    "limpieza": ["Lavandina", "Detergente", "Jabon en Polvo", "Suavizante", "Desodorante de Piso", "Limpiavidrios", "Esponja", "Trapo de Piso", "Escoba", "Secador de Piso", "Pala", "Bolsas de Residuo", "Papel Higienico", "Rollo de Cocina", "Servilletas", "Insecticida", "Desengrasante", "Lustramuebles", "Guantes de Limpieza", "Balde"],
+    "perfumeria": ["Shampoo", "Acondicionador", "Jabon de Tocador", "Desodorante", "Pasta Dental", "Cepillo de Dientes", "Crema Corporal", "Protector Solar", "Perfume", "Colonia", "Maquillaje", "Esmalte de Uñas", "Quitaesmalte", "Algodon", "Pañales", "Toallitas Humedas", "Afeitadora Descartable", "Espuma de Afeitar", "Gel de Pelo", "Talco"],
+    "panaderia": ["Pan Frances", "Medialunas", "Facturas", "Pan Lactal", "Pan de Hamburguesa", "Pan de Pancho", "Prepizza", "Bizcochitos", "Grisines", "Pan Rallado", "Torta de Ricota", "Pasta Frola", "Alfajor de Maicena", "Budin", "Pan Dulce", "Chipa", "Libritos", "Cuernitos", "Pan Negro", "Baguette"]
 };
 
 function request(method, path, body = null) {
@@ -76,7 +81,6 @@ async function seed() {
                 try {
                     cat = await request('POST', '/categories/', JSON.stringify({ title: catName, description: `Productos de ${catName}` }));
                 } catch (e) {
-                    // Try with 'name' if title failed (just in case, though we confirmed title works)
                     console.error(`Failed to create category ${catName}:`, e.message);
                     continue;
                 }
@@ -96,12 +100,16 @@ async function seed() {
 
             console.log(`Creating products for ${catName}...`);
             for (const prodName of products) {
+                // Generate dynamic image URL using Pollinations AI
+                // We use encodeURIComponent to ensure the name is URL safe
+                const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prodName)}%20product%20photo%20realistic%204k?width=600&height=600&nologo=true`;
+
                 const product = {
                     title: prodName,
                     price: Math.floor(Math.random() * 10000) + 1000,
                     description: `Descripción de ${prodName}`,
-                    image: "https://placehold.co/600x400", // Legacy field just in case
-                    pictures: ["https://placehold.co/600x400"],
+                    image: imageUrl,
+                    pictures: [imageUrl],
                     category_id: catId,
                     tags: []
                 };

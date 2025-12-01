@@ -4,37 +4,38 @@ import { load, save } from "../utils/storage"
 const CartContext = createContext(null)
 export function CartProvider({ children }) {
     const [items, setItems] = useState(() => load("cart:v1", []))
-        useEffect(() => {
-            save("cart:v1", items)
-        }, [items])
-        const add = (product, qty = 1) => {
-            if (!product || !product.id) return
-            setItems((prev) => {
-                const index = prev.findIndex((p) => p.id === product.id)
-                if (index !== -1) {
-                    const clone = [...prev]
-                        clone[index] = {
-                            ...clone[index],
-                            qty: clone[index].qty + qty,
-                        }
-                    return clone
+    useEffect(() => {
+        save("cart:v1", items)
+    }, [items])
+    const add = (product, qty = 1) => {
+        if (!product || !product.id) return
+        setItems((prev) => {
+            const index = prev.findIndex((p) => p.id === product.id)
+            if (index !== -1) {
+                const clone = [...prev]
+                clone[index] = {
+                    ...clone[index],
+                    qty: clone[index].qty + qty,
                 }
-                return [
-                    ...prev,
-                    {
-                        id: product.id,
-                        nombre: product.nombre,
-                        precio: Number(product.precio ?? 0),
-                        qty,
-                    },
-                ]
-            })
-        }
+                return clone
+            }
+            return [
+                ...prev,
+                {
+                    id: product.id,
+                    nombre: product.nombre,
+                    precio: Number(product.precio ?? 0),
+                    image: product.image,
+                    qty,
+                },
+            ]
+        })
+    }
     const update = (id, qty) => {
         setItems((prev) =>
-        prev.map((p) =>
-        p.id === id ? { ...p, qty: Math.max(1, qty) } : p
-        )
+            prev.map((p) =>
+                p.id === id ? { ...p, qty: Math.max(1, qty) } : p
+            )
         )
     }
     const remove = (id) => {
@@ -53,6 +54,9 @@ export function CartProvider({ children }) {
         clear,
         totalQty,
         total,
+        // Alias para compatibilidad
+        cart: items,
+        updateQty: update,
     }
     return (
         <CartContext.Provider value={value}>

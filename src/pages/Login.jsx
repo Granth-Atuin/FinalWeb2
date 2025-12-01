@@ -25,7 +25,7 @@ export default function Login() {
                 setError('Credenciales inválidas')
             }
         } else {
-            // Mock client login
+            // Simular inicio de sesion de cliente
             navigate('/')
         }
     }
@@ -34,30 +34,30 @@ export default function Login() {
         <div className="flex items-center justify-center min-h-[80vh]">
             <div className="w-full max-w-md bg-zinc-900 rounded-2xl p-8 shadow-2xl border border-zinc-800">
 
-                {/* Switch */}
+                {/* Interruptor Toggle */}
                 <div className="flex justify-center mb-8">
-                    <div className="relative bg-black rounded-full p-1 flex w-64 h-12 border border-zinc-800">
+                    <button
+                        onClick={() => setIsAdmin(!isAdmin)}
+                        className="relative w-64 h-12 bg-black rounded-full border border-zinc-800 p-1 cursor-pointer overflow-hidden group"
+                    >
+                        {/* Fondo animado */}
                         <div
-                            className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-500 ease-out shadow-lg ${isAdmin
+                            className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-500 ease-out shadow-lg z-0 ${isAdmin
                                 ? 'left-[calc(50%+2px)] bg-gradient-to-r from-yellow-600 to-yellow-400'
                                 : 'left-1 bg-gradient-to-r from-purple-600 to-purple-400'
                                 }`}
                         />
-                        <button
-                            onClick={() => setIsAdmin(false)}
-                            className={`relative z-10 w-1/2 text-sm font-medium transition-colors duration-300 ${!isAdmin ? 'text-white' : 'text-gray-500 hover:text-gray-300'
-                                }`}
-                        >
-                            Cliente
-                        </button>
-                        <button
-                            onClick={() => setIsAdmin(true)}
-                            className={`relative z-10 w-1/2 text-sm font-medium transition-colors duration-300 ${isAdmin ? 'text-black' : 'text-gray-500 hover:text-gray-300'
-                                }`}
-                        >
-                            Administrador
-                        </button>
-                    </div>
+
+                        {/* Textos */}
+                        <div className="relative z-10 flex w-full h-full">
+                            <div className={`w-1/2 flex items-center justify-center text-sm font-medium transition-colors duration-300 ${!isAdmin ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>
+                                Cliente
+                            </div>
+                            <div className={`w-1/2 flex items-center justify-center text-sm font-medium transition-colors duration-300 ${isAdmin ? 'text-black' : 'text-gray-500 group-hover:text-gray-300'}`}>
+                                Admin
+                            </div>
+                        </div>
+                    </button>
                 </div>
 
                 <h2 className="text-2xl font-bold text-center mb-2 text-white">

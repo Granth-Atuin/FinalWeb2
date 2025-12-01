@@ -20,7 +20,7 @@ export default function AddProduct() {
     useEffect(() => {
         getCategories()
             .then(setCategories)
-            .catch((err) => console.error("Error fetching categories:", err))
+            .catch((err) => setError("Error al cargar categorías"))
     }, [])
 
     const handleChange = (e) => {

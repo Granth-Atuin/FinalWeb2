@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
 import { useSearchParams, Link } from "react-router-dom"
-import useFetch from "../hooks/useFetch"
+import { useFetch } from "../hooks/useFetch"
 import ProductCard from "../components/ProductCard"
-import { getCategories } from "../services/categoryService"
+import LoadingSpinner from "../components/LoadingSpinner"
+import ErrorState from "../components/ErrorState"
+
 
 export default function Home() {
 	const [params] = useSearchParams()
@@ -10,15 +12,14 @@ export default function Home() {
 	const { data: rawProducts, loading: loadingProducts } = useFetch(
 		"https://ecommerce.fedegonzalez.com/products/"
 	)
-	const [categories, setCategories] = useState([])
-
-	useEffect(() => {
-		getCategories().then(setCategories).catch(console.error)
-	}, [])
+	const { data: rawCategories, loading: loadingCategories } = useFetch(
+		"https://ecommerce.fedegonzalez.com/categories/"
+	)
 
 	const products = Array.isArray(rawProducts) ? rawProducts : []
+	const categories = Array.isArray(rawCategories) ? rawCategories : []
 
-	// Filter by search query if present
+	// Filtrar por busqueda si existe
 	const filteredProducts = q
 		? products.filter(
 			(p) =>
@@ -27,60 +28,64 @@ export default function Home() {
 		)
 		: products
 
-	// If searching, show grid. If not, show categorized rows.
+	// Si busca, mostrar grilla. Si no, mostrar filas categorizadas.
 	if (q) {
 		return (
-			<section className="space-y-6 px-6 py-8">
-				<h1 className="text-2xl font-bold text-white">Resultados para "{q}"</h1>
-				{loadingProducts && <div className="text-sm text-gray-400">Cargando...</div>}
-				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-					{filteredProducts.map((p) => (
-						<ProductCard key={p.id} product={p} />
-					))}
-				</div>
+			<section className="space-y-6 px-4 sm:px-6 py-6 sm:py-8">
+				<h1 className="text-xl sm:text-2xl font-bold text-white">Resultados para "{q}"</h1>
+				<h1 className="text-xl sm:text-2xl font-bold text-white">Resultados para "{q}"</h1>
+				{loadingProducts ? (
+					<LoadingSpinner />
+				) : (
+					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+						{filteredProducts.map((p) => (
+							<ProductCard key={p.id} product={p} />
+						))}
+					</div>
+				)}
 				{!loadingProducts && filteredProducts.length === 0 && (
-					<div className="text-gray-500">No se encontraron productos.</div>
+					<ErrorState message={`No encontramos productos que coincidan con "${q}"`} />
 				)}
 			</section>
 		)
 	}
 
-	// Helper to get products for a category
+	// Helper para obtener productos por categoria
 	const getCategoryProducts = (catId) => products.filter(p => p.category_id === catId)
 
-	// Featured Logic
+	// Logica de destacados
 	let featured = products.filter(p => p.tags && p.tags.includes('destacados'))
 
-	// Fallback if no featured products
+	// Respaldo si no hay destacados
 	if (featured.length === 0 && categories.length > 0 && products.length > 0) {
 		const discounts = [50, 30, 20]
 
-		// Iterate categories to find top 3 products from each
+		// Iterar categorias para encontrar top 3 de cada una
 		for (const cat of categories) {
 			const catProducts = getCategoryProducts(cat.id)
 
-			// Take up to 3 products
+			// Tomar hasta 3 productos
 			for (let i = 0; i < Math.min(catProducts.length, 3); i++) {
 				const product = { ...catProducts[i], discount: discounts[i] }
 				featured.push(product)
 			}
 		}
 
-		// Sort by discount descending
+		// Ordenar por descuento descendente
 		featured.sort((a, b) => b.discount - a.discount)
 	}
 
 	return (
-		<section className="space-y-8 pb-12">
-			{/* Hero / Featured Section */}
+		<section className="space-y-6 sm:space-y-8 pb-12">
+			{/* Hero / Seccion Destacados */}
 			{featured.length > 0 && (
-				<div className="px-6 py-8 bg-gradient-to-b from-purple-900/20 to-transparent">
-					<h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+				<div className="px-4 sm:px-6 py-6 sm:py-8 bg-gradient-to-b from-purple-900/20 to-transparent">
+					<h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2">
 						<span className="text-yellow-500">★</span> Destacados
 					</h2>
-					<div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
+					<div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x -mx-4 sm:mx-0 px-4 sm:px-0">
 						{featured.map((p, index) => (
-							<div key={`${p.id}-${index}`} className="snap-start">
+							<div key={`${p.id}-${index}`} className="snap-start shrink-0">
 								<ProductCard product={p} />
 							</div>
 						))}
@@ -88,23 +93,23 @@ export default function Home() {
 				</div>
 			)}
 
-			{/* Categories Rows */}
-			<div className="px-6 space-y-8">
+			{/* Filas de Categorias */}
+			<div className="px-4 sm:px-6 space-y-6 sm:space-y-8">
 				{categories.map(cat => {
 					const catProducts = getCategoryProducts(cat.id)
 					if (catProducts.length === 0) return null
 
 					return (
 						<div key={cat.id}>
-							<div className="flex justify-between items-end mb-4">
-								<h2 className="text-xl font-bold text-white capitalize">{cat.title}</h2>
+							<div className="flex justify-between items-end mb-3 sm:mb-4">
+								<h2 className="text-lg sm:text-xl font-bold text-white capitalize">{cat.title}</h2>
 								<Link to={`/categoria/${cat.id}`} className="text-sm text-purple-400 hover:text-purple-300">
 									Ver todo
 								</Link>
 							</div>
-							<div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
+							<div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x -mx-4 sm:mx-0 px-4 sm:px-0">
 								{catProducts.map(p => (
-									<div key={p.id} className="snap-start">
+									<div key={p.id} className="snap-start shrink-0">
 										<ProductCard product={p} />
 									</div>
 								))}
@@ -114,7 +119,8 @@ export default function Home() {
 				})}
 			</div>
 
-			{loadingProducts && <div className="px-6 text-sm text-gray-400">Cargando productos...</div>}
+			{loadingProducts && <LoadingSpinner />}
+			{!loadingProducts && products.length === 0 && <ErrorState />}
 		</section>
 	)
 }

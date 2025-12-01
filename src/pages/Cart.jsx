@@ -1,4 +1,4 @@
-import { useCart } from '../store/Cart'
+import { useCart } from '../store/cart'
 import QuantityPicker from '../components/QuantityPicker'
 
 export default function Cart() {

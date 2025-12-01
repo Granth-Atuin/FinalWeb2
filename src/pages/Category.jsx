@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import useFetch from "../hooks/useFetch"
+import { useFetch } from "../hooks/useFetch"
 import ProductCard from "../components/ProductCard"
 
 export default function Category() {
@@ -17,8 +17,8 @@ export default function Category() {
 				{loadingCategory
 					? "Cargando categoría..."
 					: category
-					? category.title
-					: "Categoría"}
+						? category.title
+						: "Categoría"}
 			</h1>
 			{loadingProducts && (
 				<div className="text-sm">Cargando productos...</div>
