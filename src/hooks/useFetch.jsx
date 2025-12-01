@@ -16,7 +16,7 @@ export function useFetch(url) {
 
         // Evitar llamadas a la API si sabemos que fallaran (403)
         if (url.includes("ecommerce.fedegonzalez.com")) {
-          console.info("Using mock data for restricted API:", url)
+          console.info("Usando datos de prueba para API restringida:", url)
           if (url.includes("/categories")) {
             if (!cancel) setData(MOCK_CATEGORIES)
             return

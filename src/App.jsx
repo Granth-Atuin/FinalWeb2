@@ -5,7 +5,7 @@ import Footer from './components/Footer'
 import LoadingSpinner from './components/LoadingSpinner'
 import ProtectedRoute from './components/ProtectedRoute'
 
-// Lazy load pages
+// Carga diferida de páginas
 const Home = lazy(() => import('./pages/Home'))
 const Category = lazy(() => import('./pages/Category'))
 const Product = lazy(() => import('./pages/Product'))
@@ -13,8 +13,9 @@ const Cart = lazy(() => import('./pages/Cart'))
 const Login = lazy(() => import('./pages/Login'))
 const AdminLayout = lazy(() => import('./admin/AdminLayout'))
 const Products = lazy(() => import('./admin/Products'))
-const AddProduct = lazy(() => import('./admin/AddProduct'))
+const ProductForm = lazy(() => import('./admin/ProductForm'))
 const Categories = lazy(() => import('./admin/Categories'))
+const CategoryForm = lazy(() => import('./admin/CategoryForm'))
 
 export default function App() {
     return (
@@ -33,8 +34,11 @@ export default function App() {
                             <Route path="/admin" element={<AdminLayout />}>
                                 <Route index element={<Navigate to="productos" replace />} />
                                 <Route path="productos" element={<Products />} />
-                                <Route path="productos/nuevo" element={<AddProduct />} />
+                                <Route path="productos/nuevo" element={<ProductForm />} />
+                                <Route path="productos/editar/:id" element={<ProductForm />} />
                                 <Route path="categorias" element={<Categories />} />
+                                <Route path="categorias/nueva" element={<CategoryForm />} />
+                                <Route path="categorias/editar/:id" element={<CategoryForm />} />
                             </Route>
                         </Route>
 
