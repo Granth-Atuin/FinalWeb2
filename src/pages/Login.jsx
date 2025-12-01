@@ -31,7 +31,7 @@ export default function Login() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-[80vh]">
+        <div className="flex items-center justify-center min-h-[80vh] px-4">
             <div className="w-full max-w-md bg-zinc-900 rounded-2xl p-8 shadow-2xl border border-zinc-800">
 
                 {/* Interruptor Toggle */}

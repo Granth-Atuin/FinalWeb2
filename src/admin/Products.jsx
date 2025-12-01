@@ -37,21 +37,21 @@ export default function Products() {
 				<table className="min-w-full text-sm">
 					<thead className="bg-zinc-900 text-gray-400">
 						<tr>
-							<th className="px-4 py-3 text-left font-medium">ID</th>
-							<th className="px-4 py-3 text-left font-medium">Título</th>
-							<th className="px-4 py-3 text-left font-medium">Precio</th>
-							<th className="px-4 py-3 text-center font-medium">Acciones</th>
+							<th className="px-2 sm:px-4 py-3 text-left font-medium">ID</th>
+							<th className="px-2 sm:px-4 py-3 text-left font-medium">Título</th>
+							<th className="px-2 sm:px-4 py-3 text-left font-medium">Precio</th>
+							<th className="px-2 sm:px-4 py-3 text-center font-medium">Acciones</th>
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-zinc-800 bg-black">
 						{products.map((p) => (
 							<tr key={p.id} className="hover:bg-zinc-900/50 transition-colors">
-								<td className="px-4 py-3 text-gray-300">{p.id}</td>
-								<td className="px-4 py-3 text-white font-medium">{p.title}</td>
-								<td className="px-4 py-3 text-gray-300">
+								<td className="px-2 sm:px-4 py-3 text-gray-300">{p.id}</td>
+								<td className="px-2 sm:px-4 py-3 text-white font-medium">{p.title}</td>
+								<td className="px-2 sm:px-4 py-3 text-gray-300">
 									${Number(p.price).toFixed(2)}
 								</td>
-								<td className="px-4 py-3 text-center space-x-3">
+								<td className="px-2 sm:px-4 py-3 text-center space-x-1 sm:space-x-3">
 									<Link
 										to={`/admin/productos/editar/${p.id}`}
 										className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
