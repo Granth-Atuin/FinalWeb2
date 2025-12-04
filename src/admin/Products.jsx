@@ -2,11 +2,20 @@ import { useFetch } from "../hooks/useFetch"
 import { deleteProduct } from "../services/productService"
 import { Link } from "react-router-dom"
 
+import { useSearchParams } from "react-router-dom"
+
 export default function Products() {
+	const [searchParams] = useSearchParams()
+	const q = (searchParams.get("q") || "").toLowerCase()
+
 	const { data: rawProducts, loading, setData } = useFetch(
 		"https://ecommerce.fedegonzalez.com/products/"
 	)
-	const products = Array.isArray(rawProducts) ? rawProducts : []
+	const allProducts = Array.isArray(rawProducts) ? rawProducts : []
+
+	const products = q
+		? allProducts.filter(p => p.title.toLowerCase().includes(q) || (p.description || "").toLowerCase().includes(q))
+		: allProducts
 
 	const handleDelete = async (id) => {
 		if (window.confirm("¿Estás seguro de eliminar este producto?")) {

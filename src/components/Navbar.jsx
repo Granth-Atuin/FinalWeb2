@@ -27,15 +27,30 @@ export default function Navbar() {
                         <Link to="/login" className="text-gray-300 hover:text-white transition-colors">Login</Link>
                     </nav>
 
-                    {/* Boton Menu Mobile */}
-                    <button
-                        className="sm:hidden text-gray-300 hover:text-white p-2"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"} />
-                        </svg>
-                    </button>
+                    {/* Botones Mobile (Carrito + Menu) */}
+                    <div className="flex items-center gap-4 sm:hidden">
+                        <button
+                            onClick={() => setIsCartOpen(true)}
+                            className="text-gray-300 hover:text-white relative"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                            </svg>
+                            {totalQty > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                                    {totalQty}
+                                </span>
+                            )}
+                        </button>
+                        <button
+                            className="text-gray-300 hover:text-white"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"} />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Dropdown Navegacion Mobile */}
@@ -65,22 +80,30 @@ export default function Navbar() {
                     </div>
                 )}
 
-                {/* Barra de Busqueda y Carrito */}
+                {/* Barra de Busqueda */}
                 <div className="border-t border-gray-800 bg-zinc-900/50">
                     <div className="w-full px-4 sm:px-6 py-3 flex items-center gap-4">
-                        <div className="flex-1 max-w-xl">
+                        <div className="flex-1 w-full">
                             <SearchBar onSubmit={({ q, categoryId }) => {
+                                const isAdmin = window.location.pathname.startsWith("/admin")
                                 const params = new URLSearchParams()
                                 if (q) params.set("q", q)
                                 if (categoryId) params.set("category", categoryId)
-                                navigate(`/?${params.toString()}`)
+
+                                if (isAdmin) {
+                                    navigate(`/admin/productos?${params.toString()}`)
+                                } else {
+                                    navigate(`/?${params.toString()}`)
+                                }
                             }} />
                         </div>
+
+                        {/* Carrito Desktop */}
                         <button
                             onClick={() => setIsCartOpen(true)}
-                            className="ml-auto text-sm text-gray-300 hover:text-white flex items-center gap-2 shrink-0"
+                            className="hidden sm:flex ml-auto text-sm text-gray-300 hover:text-white items-center gap-2 shrink-0"
                         >
-                            <span className="hidden sm:inline">Carrito</span>
+                            <span>Carrito</span>
                             <div className="relative">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
