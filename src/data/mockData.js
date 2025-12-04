@@ -10,8 +10,8 @@ export const MOCK_CATEGORIES = [
 
 export const MOCK_PRODUCTS = [
     // Verduleria (1)
-    { id: 101, title: "Papa Negra", price: 800, category_id: 1, image: "https://placehold.co/600x400?text=Papa+Negra", pictures: ["https://placehold.co/600x400?text=Papa+Negra"], tags: [] },
-    { id: 102, title: "Cebolla", price: 600, category_id: 1, image: "https://placehold.co/600x400?text=Cebolla", pictures: ["https://placehold.co/600x400?text=Cebolla"], tags: [] },
+    { id: 101, title: "Papa Negra", price: 800, category_id: 1, image: "https://placehold.co/600x400?text=Papa+Negra", pictures: ["https://placehold.co/600x400?text=Papa+Negra"], tags: [], discount: 10 },
+    { id: 102, title: "Cebolla", price: 600, category_id: 1, image: "https://placehold.co/600x400?text=Cebolla", pictures: ["https://placehold.co/600x400?text=Cebolla"], tags: [], discount: 5 },
     { id: 103, title: "Zanahoria", price: 500, category_id: 1, image: "https://placehold.co/600x400?text=Zanahoria", pictures: ["https://placehold.co/600x400?text=Zanahoria"], tags: [] },
     { id: 104, title: "Lechuga Criolla", price: 1200, category_id: 1, image: "https://placehold.co/600x400?text=Lechuga+Criolla", pictures: ["https://placehold.co/600x400?text=Lechuga+Criolla"], tags: [] },
     { id: 105, title: "Tomate Redondo", price: 1500, category_id: 1, image: "https://placehold.co/600x400?text=Tomate+Redondo", pictures: ["https://placehold.co/600x400?text=Tomate+Redondo"], tags: [] },

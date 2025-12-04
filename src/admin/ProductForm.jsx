@@ -18,6 +18,7 @@ export default function ProductForm() {
         image: "",
         category_id: "",
         isFeatured: false,
+        discount: "",
     })
 
     useEffect(() => {
@@ -38,6 +39,7 @@ export default function ProductForm() {
                     image: product.pictures?.[0] || product.image || "",
                     category_id: product.category_id,
                     isFeatured: product.tags?.includes("destacados") || false,
+                    discount: product.discount || "",
                 })
             }
         } catch (err) {
@@ -67,6 +69,7 @@ export default function ProductForm() {
                 category_id: Number(formData.category_id),
                 pictures: [formData.image],
                 tags: formData.isFeatured ? ["destacados"] : [],
+                discount: Number(formData.discount) || 0,
             }
 
             if (isEditMode) {
@@ -110,7 +113,7 @@ export default function ProductForm() {
                     />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             Precio
@@ -125,6 +128,21 @@ export default function ProductForm() {
                             onChange={handleChange}
                             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                             placeholder="0.00"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Descuento (%)
+                        </label>
+                        <input
+                            type="number"
+                            name="discount"
+                            min="0"
+                            max="100"
+                            value={formData.discount}
+                            onChange={handleChange}
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                            placeholder="0"
                         />
                     </div>
                     <div>

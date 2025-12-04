@@ -1,17 +1,31 @@
+import { MOCK_CATEGORIES } from "../data/mockData"
+
 export async function getCategories() {
-    const res = await fetch("https://ecommerce.fedegonzalez.com/categories/", {
-        headers: {
-            Authorization: "Bearer 022",
-        },
-    })
-    if (!res.ok) throw new Error("Error al obtener categorías")
-    return res.json()
+    try {
+        const res = await fetch("https://ecommerce.fedegonzalez.com/categories/", {
+            headers: {
+                Authorization: "Bearer 022",
+            },
+        })
+        if (!res.ok) throw new Error("Error al obtener categorías")
+        return await res.json()
+    } catch (error) {
+        console.warn("API Error, falling back to mock data:", error)
+        return MOCK_CATEGORIES
+    }
 }
 
 export async function getCategory(id) {
-    const res = await fetch(`https://ecommerce.fedegonzalez.com/categories/${id}`)
-    if (!res.ok) throw new Error("Error al obtener la categoría")
-    return res.json()
+    try {
+        const res = await fetch(`https://ecommerce.fedegonzalez.com/categories/${id}`)
+        if (!res.ok) throw new Error("Error al obtener la categoría")
+        return await res.json()
+    } catch (error) {
+        console.warn("API Error, falling back to mock data:", error)
+        const category = MOCK_CATEGORIES.find(c => c.id == id)
+        if (category) return category
+        throw error
+    }
 }
 
 export async function createCategory(category) {

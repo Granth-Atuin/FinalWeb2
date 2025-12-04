@@ -10,6 +10,8 @@ import CategoryNav from "../components/CategoryNav"
 export default function Home() {
 	const [params] = useSearchParams()
 	const q = (params.get("q") || "").toLowerCase()
+	const categoryId = params.get("category")
+
 	const { data: rawProducts, loading: loadingProducts } = useFetch(
 		"https://ecommerce.fedegonzalez.com/products/"
 	)
@@ -20,32 +22,62 @@ export default function Home() {
 	const products = Array.isArray(rawProducts) ? rawProducts : []
 	const categories = Array.isArray(rawCategories) ? rawCategories : []
 
-	// Filtrar por busqueda si existe
-	const filteredProducts = q
-		? products.filter(
-			(p) =>
-				p.title.toLowerCase().includes(q) ||
-				(p.description || "").toLowerCase().includes(q)
-		)
-		: products
+	// Filtrar por busqueda y categoria si existen
+	let filteredProducts = products.filter((p) => {
+		const matchesSearch = q
+			? p.title.toLowerCase().includes(q) || (p.description || "").toLowerCase().includes(q)
+			: true
+		const matchesCategory = categoryId ? p.category_id == categoryId : true
+		return matchesSearch && matchesCategory
+	})
 
-	// Si busca, mostrar grilla. Si no, mostrar filas categorizadas.
-	if (q) {
+	// Estado para ordenamiento
+	const [sortOrder, setSortOrder] = useState("")
+
+	// Ordenar productos
+	if (sortOrder) {
+		filteredProducts.sort((a, b) => {
+			if (sortOrder === "price-asc") return a.price - b.price
+			if (sortOrder === "price-desc") return b.price - a.price
+			if (sortOrder === "alpha-asc") return a.title.localeCompare(b.title)
+			if (sortOrder === "alpha-desc") return b.title.localeCompare(a.title)
+			return 0
+		})
+	}
+
+	// Si busca o filtra, mostrar grilla. Si no, mostrar filas categorizadas.
+	if (q || categoryId) {
 		return (
 			<section className="space-y-6 px-4 sm:px-6 py-6 sm:py-8">
-				<h1 className="text-xl sm:text-2xl font-bold text-white">Resultados para "{q}"</h1>
-				<h1 className="text-xl sm:text-2xl font-bold text-white">Resultados para "{q}"</h1>
+				<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+					<h1 className="text-xl sm:text-2xl font-bold text-white">
+						{q ? `Resultados para "${q}"` : "Productos"}
+					</h1>
+
+					<select
+						value={sortOrder}
+						onChange={(e) => setSortOrder(e.target.value)}
+						className="bg-zinc-900 text-white border border-zinc-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+					>
+						<option value="">Ordenar por...</option>
+						<option value="price-asc">Precio: Menor a Mayor</option>
+						<option value="price-desc">Precio: Mayor a Menor</option>
+						<option value="alpha-asc">Nombre: A-Z</option>
+						<option value="alpha-desc">Nombre: Z-A</option>
+					</select>
+				</div>
+
 				{loadingProducts ? (
 					<LoadingSpinner />
 				) : (
-					<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
 						{filteredProducts.map((p) => (
 							<ProductCard key={p.id} product={p} />
 						))}
 					</div>
 				)}
 				{!loadingProducts && filteredProducts.length === 0 && (
-					<ErrorState message={`No encontramos productos que coincidan con "${q}"`} />
+					<ErrorState message={`No encontramos productos que coincidan con su búsqueda.`} />
 				)}
 			</section>
 		)
@@ -86,7 +118,7 @@ export default function Home() {
 					</h2>
 					<div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x -mx-4 sm:mx-0 px-4 sm:px-0">
 						{featured.map((p, index) => (
-							<div key={`${p.id}-${index}`} className="snap-start shrink-0">
+							<div key={`${p.id}-${index}`} className="snap-start shrink-0 w-[180px]">
 								<ProductCard product={p} />
 							</div>
 						))}
@@ -110,7 +142,7 @@ export default function Home() {
 							</div>
 							<div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x -mx-4 sm:mx-0 px-4 sm:px-0">
 								{catProducts.map(p => (
-									<div key={p.id} className="snap-start shrink-0">
+									<div key={p.id} className="snap-start shrink-0 w-[180px]">
 										<ProductCard product={p} />
 									</div>
 								))}

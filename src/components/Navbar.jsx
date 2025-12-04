@@ -69,7 +69,12 @@ export default function Navbar() {
                 <div className="border-t border-gray-800 bg-zinc-900/50">
                     <div className="w-full px-4 sm:px-6 py-3 flex items-center gap-4">
                         <div className="flex-1 max-w-xl">
-                            <SearchBar onSubmit={(q) => navigate(`/?q=${encodeURIComponent(q)}`)} />
+                            <SearchBar onSubmit={({ q, categoryId }) => {
+                                const params = new URLSearchParams()
+                                if (q) params.set("q", q)
+                                if (categoryId) params.set("category", categoryId)
+                                navigate(`/?${params.toString()}`)
+                            }} />
                         </div>
                         <button
                             onClick={() => setIsCartOpen(true)}

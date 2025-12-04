@@ -1,3 +1,5 @@
+import { MOCK_PRODUCTS } from "../data/mockData"
+
 export async function addProduct(product) {
     const res = await fetch("https://ecommerce.fedegonzalez.com/products/", {
         method: "POST",
@@ -48,7 +50,14 @@ export async function deleteProduct(id) {
 }
 
 export async function getProduct(id) {
-    const res = await fetch(`https://ecommerce.fedegonzalez.com/products/${id}`)
-    if (!res.ok) throw new Error("Error al obtener el producto")
-    return res.json()
+    try {
+        const res = await fetch(`https://ecommerce.fedegonzalez.com/products/${id}`)
+        if (!res.ok) throw new Error("Error al obtener el producto")
+        return await res.json()
+    } catch (error) {
+        console.warn("API Error, falling back to mock data:", error)
+        const product = MOCK_PRODUCTS.find(p => p.id == id)
+        if (product) return product
+        throw error
+    }
 }

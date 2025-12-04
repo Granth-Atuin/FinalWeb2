@@ -40,6 +40,7 @@ export default function Products() {
 							<th className="px-2 sm:px-4 py-3 text-left font-medium">ID</th>
 							<th className="px-2 sm:px-4 py-3 text-left font-medium">Título</th>
 							<th className="px-2 sm:px-4 py-3 text-left font-medium">Precio</th>
+							<th className="px-2 sm:px-4 py-3 text-left font-medium">Descuento</th>
 							<th className="px-2 sm:px-4 py-3 text-center font-medium">Acciones</th>
 						</tr>
 					</thead>
@@ -50,6 +51,9 @@ export default function Products() {
 								<td className="px-2 sm:px-4 py-3 text-white font-medium">{p.title}</td>
 								<td className="px-2 sm:px-4 py-3 text-gray-300">
 									${Number(p.price).toFixed(2)}
+								</td>
+								<td className="px-2 sm:px-4 py-3 text-gray-300">
+									{p.discount ? `${p.discount}%` : "-"}
 								</td>
 								<td className="px-2 sm:px-4 py-3 text-center space-x-1 sm:space-x-3">
 									<Link
