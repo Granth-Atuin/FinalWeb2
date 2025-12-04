@@ -60,10 +60,10 @@ button:focus-visible {
 }
 
 
-/* Hide scrollbar for IE, Edge and Firefox */
+/* Ocultar barra de desplazamiento para IE, Edge y Firefox */
 .scrollbar-hide {
   -ms-overflow-style: none;
-  /* IE and Edge */
+  /* IE y Edge */
   scrollbar-width: none;
   /* Firefox */
 }

@@ -4,6 +4,7 @@ import { useFetch } from "../hooks/useFetch"
 import ProductCard from "../components/ProductCard"
 import LoadingSpinner from "../components/LoadingSpinner"
 import ErrorState from "../components/ErrorState"
+import CategoryNav from "../components/CategoryNav"
 
 
 export default function Home() {
@@ -77,7 +78,7 @@ export default function Home() {
 
 	return (
 		<section className="space-y-6 sm:space-y-8 pb-12">
-			{/* Hero / Seccion Destacados */}
+			{/* Seccion Destacados */}
 			{featured.length > 0 && (
 				<div className="px-4 sm:px-6 py-6 sm:py-8 bg-gradient-to-b from-purple-900/20 to-transparent">
 					<h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2">
@@ -100,7 +101,7 @@ export default function Home() {
 					if (catProducts.length === 0) return null
 
 					return (
-						<div key={cat.id}>
+						<div key={cat.id} id={`category-${cat.id}`} className="scroll-mt-24">
 							<div className="flex justify-between items-end mb-3 sm:mb-4">
 								<h2 className="text-lg sm:text-xl font-bold text-white capitalize">{cat.title}</h2>
 								<Link to={`/categoria/${cat.id}`} className="text-sm text-purple-400 hover:text-purple-300">
@@ -118,6 +119,8 @@ export default function Home() {
 					)
 				})}
 			</div>
+
+			<CategoryNav categories={categories} />
 
 			{loadingProducts && <LoadingSpinner />}
 			{!loadingProducts && products.length === 0 && <ErrorState />}
