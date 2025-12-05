@@ -26,6 +26,16 @@ export default function AdminLayout() {
           >
             Categorías
           </NavLink>
+          <NavLink
+            to="/admin/usuarios"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-medium bg-zinc-900 px-4 py-3 rounded-xl transition-all"
+                : "text-gray-400 hover:text-gray-200 hover:bg-zinc-900/50 px-4 py-3 rounded-xl transition-all"
+            }
+          >
+            Administradores
+          </NavLink>
         </aside>
         {/* Contenido */}
         <main className="flex-1 min-w-0">

@@ -1,18 +1,23 @@
-import { useFetch } from "../hooks/useFetch"
-import { deleteCategory } from "../services/categoryService"
+import { useState, useEffect } from "react"
+import { getCategories, deleteCategory } from "../services/categoryService"
 import { Link } from "react-router-dom"
 
 export default function Categories() {
-	const { data: rawCategories, loading, setData } = useFetch(
-		"https://ecommerce.fedegonzalez.com/categories/"
-	)
-	const categories = Array.isArray(rawCategories) ? rawCategories : []
+	const [categories, setCategories] = useState([])
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		getCategories()
+			.then(data => setCategories(Array.isArray(data) ? data : []))
+			.catch(err => console.error(err))
+			.finally(() => setLoading(false))
+	}, [])
 
 	const handleDelete = async (id) => {
 		if (window.confirm("¿Estás seguro de eliminar esta categoría?")) {
 			try {
 				await deleteCategory(id)
-				setData(categories.filter(c => c.id !== id))
+				setCategories(categories.filter(c => c.id !== id))
 			} catch (error) {
 				alert("Error al eliminar categoría")
 				console.error(error)

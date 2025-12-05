@@ -1,13 +1,20 @@
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useFetch } from "../hooks/useFetch"
+import { getProduct } from "../services/productService"
 import { useCart } from "../store/cart"
 
 export default function Product() {
 	const { id } = useParams()
 	const { add } = useCart()
-	const { data: product, loading } = useFetch(
-		`https://ecommerce.fedegonzalez.com/products/${id}`
-	)
+	const [product, setProduct] = useState(null)
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		getProduct(id)
+			.then(setProduct)
+			.catch(err => console.error(err))
+			.finally(() => setLoading(false))
+	}, [id])
 	if (loading) {
 		return <div className="text-sm">Cargando producto...</div>
 	}

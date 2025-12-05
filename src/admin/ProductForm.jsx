@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { addProduct, getProduct, updateProduct } from "../services/productService"
+import { addProduct, getProduct, updateProduct, uploadProductImage } from "../services/productService"
 import { getCategories } from "../services/categoryService"
+import { ensureTag } from "../services/tagService"
 
 export default function ProductForm() {
     const navigate = useNavigate()
@@ -11,11 +12,12 @@ export default function ProductForm() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [categories, setCategories] = useState([])
+    const [selectedFile, setSelectedFile] = useState(null)
+
     const [formData, setFormData] = useState({
         title: "",
         price: "",
         description: "",
-        image: "",
         category_id: "",
         isFeatured: false,
         discount: "",
@@ -32,14 +34,21 @@ export default function ProductForm() {
 
             if (isEditMode) {
                 const product = await getProduct(id)
+
+                // Parse discount from tags (e.g. "descuento_20")
+                let discountValue = ""
+                const discountTag = product.tags?.find(t => t.title.toLowerCase().startsWith("descuento_"))
+                if (discountTag) {
+                    discountValue = discountTag.title.split("_")[1]
+                }
+
                 setFormData({
                     title: product.title,
                     price: product.price,
                     description: product.description,
-                    image: product.pictures?.[0] || product.image || "",
                     category_id: product.category_id,
-                    isFeatured: product.tags?.includes("destacados") || false,
-                    discount: product.discount || "",
+                    isFeatured: product.tags?.some(t => t.title.toLowerCase() === "destacado") || false,
+                    discount: discountValue,
                 })
             }
         } catch (err) {
@@ -56,6 +65,12 @@ export default function ProductForm() {
         }))
     }
 
+    const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedFile(e.target.files[0])
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
@@ -67,19 +82,41 @@ export default function ProductForm() {
                 price: Number(formData.price),
                 description: formData.description,
                 category_id: Number(formData.category_id),
-                pictures: [formData.image],
-                tags: formData.isFeatured ? ["destacados"] : [],
-                discount: Number(formData.discount) || 0,
             }
 
+            let productId = id
+            let productResponse
+
             if (isEditMode) {
-                await updateProduct(id, payload)
+                productResponse = await updateProduct(id, payload)
             } else {
-                await addProduct(payload)
+                productResponse = await addProduct(payload)
+                productId = productResponse.id
             }
+
+            if (selectedFile) {
+                await uploadProductImage(productId, selectedFile)
+            }
+
+            // Handle Tags
+            const desiredTags = []
+
+            if (formData.isFeatured) {
+                const t = await ensureTag("destacado")
+                if (t) desiredTags.push(t.id)
+            }
+
+            if (formData.discount) {
+                const t = await ensureTag(`descuento_${formData.discount}`)
+                if (t) desiredTags.push(t.id)
+            }
+
+            await updateProduct(productId, { ...payload, tag_ids: desiredTags })
+
             navigate("/admin/productos")
         } catch (err) {
-            setError(err.message)
+            console.error(err)
+            setError(err.message || "Error al guardar el producto")
         } finally {
             setLoading(false)
         }
@@ -113,7 +150,7 @@ export default function ProductForm() {
                     />
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             Precio
@@ -132,18 +169,23 @@ export default function ProductForm() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Descuento (%)
+                            Descuento
                         </label>
-                        <input
-                            type="number"
+                        <select
                             name="discount"
-                            min="0"
-                            max="100"
                             value={formData.discount}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                            placeholder="0"
-                        />
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                        >
+                            <option value="">Sin descuento</option>
+                            <option value="10">10% OFF</option>
+                            <option value="20">20% OFF</option>
+                            <option value="25">25% OFF</option>
+                            <option value="30">30% OFF</option>
+                            <option value="40">40% OFF</option>
+                            <option value="50">50% OFF</option>
+                            <option value="60">60% OFF</option>
+                        </select>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -166,6 +208,21 @@ export default function ProductForm() {
                     </div>
                 </div>
 
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Imagen del Producto
+                    </label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        {isEditMode ? "Deja vacío para mantener la imagen actual." : "Sube una imagen para tu producto."}
+                    </p>
+                </div>
+
                 <div className="flex items-center gap-2">
                     <input
                         type="checkbox"
@@ -176,24 +233,12 @@ export default function ProductForm() {
                         className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                     />
                     <label htmlFor="isFeatured" className="text-sm font-medium text-gray-700">
-                        Producto Destacado
+                        Producto Destacado (Manual)
                     </label>
                 </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        URL de la Imagen
-                    </label>
-                    <input
-                        type="url"
-                        name="image"
-                        required
-                        value={formData.image}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                        placeholder="https://ejemplo.com/imagen.jpg"
-                    />
-                </div>
+                <p className="text-xs text-gray-500 ml-6">
+                    Nota: Los productos con descuento automático también aparecerán en destacados.
+                </p>
 
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">

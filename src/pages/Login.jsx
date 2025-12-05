@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../store/auth'
 
 export default function Login() {
@@ -32,7 +32,29 @@ export default function Login() {
 
     return (
         <div className="flex items-center justify-center min-h-[80vh] px-4">
-            <div className="w-full max-w-md bg-zinc-900 rounded-2xl p-8 shadow-2xl border border-zinc-800">
+            <div className="w-full max-w-md bg-zinc-900 rounded-2xl p-8 shadow-2xl border border-zinc-800 relative">
+
+                {/* Admin Credentials Hint */}
+                {isAdmin && (
+                    <div className="absolute -right-64 top-0 w-60 bg-zinc-800 border border-zinc-700 p-4 rounded-xl shadow-xl hidden lg:block">
+                        <div className="flex items-center gap-2 mb-2 text-yellow-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                            </svg>
+                            <h3 className="font-bold text-sm">Credenciales Demo</h3>
+                        </div>
+                        <div className="space-y-2 text-sm">
+                            <div>
+                                <span className="text-gray-400 block text-xs">Email:</span>
+                                <code className="bg-black/50 px-2 py-1 rounded text-gray-200 block mt-1 select-all">admin@admin.com</code>
+                            </div>
+                            <div>
+                                <span className="text-gray-400 block text-xs">Contraseña:</span>
+                                <code className="bg-black/50 px-2 py-1 rounded text-gray-200 block mt-1 select-all">admin</code>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Interruptor Toggle */}
                 <div className="flex justify-center mb-8">
@@ -105,11 +127,16 @@ export default function Login() {
                     </button>
                 </form>
 
-                <div className="mt-6 text-center">
-                    <a href="#" className="text-sm text-gray-500 hover:text-white transition-colors">
-                        ¿Olvidaste tu contraseña?
-                    </a>
-                </div>
+                {!isAdmin && (
+                    <div className="mt-6 text-center">
+                        <a href="#" className="text-sm text-gray-500 hover:text-white transition-colors block mb-2">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                        <Link to="/register" className="text-sm text-purple-400 hover:text-purple-300 font-medium">
+                            Registrarse
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
     )

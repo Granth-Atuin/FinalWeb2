@@ -16,6 +16,8 @@ const Products = lazy(() => import('./admin/Products'))
 const ProductForm = lazy(() => import('./admin/ProductForm'))
 const Categories = lazy(() => import('./admin/Categories'))
 const CategoryForm = lazy(() => import('./admin/CategoryForm'))
+const Register = lazy(() => import('./pages/Register'))
+const AdminUsers = lazy(() => import('./admin/AdminUsers'))
 
 export default function App() {
     return (
@@ -29,6 +31,7 @@ export default function App() {
                         <Route path="/producto/:id" element={<Product />} />
                         <Route path="/carrito" element={<Cart />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
 
                         <Route element={<ProtectedRoute />}>
                             <Route path="/admin" element={<AdminLayout />}>
@@ -39,6 +42,7 @@ export default function App() {
                                 <Route path="categorias" element={<Categories />} />
                                 <Route path="categorias/nueva" element={<CategoryForm />} />
                                 <Route path="categorias/editar/:id" element={<CategoryForm />} />
+                                <Route path="usuarios" element={<AdminUsers />} />
                             </Route>
                         </Route>
 

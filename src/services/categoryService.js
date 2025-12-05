@@ -1,10 +1,12 @@
 import { MOCK_CATEGORIES } from "../data/mockData"
+import { API_URL, API_TOKEN } from "../utils/constants"
 
 export async function getCategories() {
     try {
-        const res = await fetch("https://ecommerce.fedegonzalez.com/categories/", {
+        const res = await fetch(`${API_URL}/categories/`, {
+            cache: 'no-store',
             headers: {
-                Authorization: "Bearer 022",
+                Authorization: `Bearer ${API_TOKEN}`,
             },
         })
         if (!res.ok) throw new Error("Error al obtener categorías")
@@ -17,7 +19,11 @@ export async function getCategories() {
 
 export async function getCategory(id) {
     try {
-        const res = await fetch(`https://ecommerce.fedegonzalez.com/categories/${id}`)
+        const res = await fetch(`${API_URL}/categories/${id}`, {
+            headers: {
+                Authorization: `Bearer ${API_TOKEN}`,
+            },
+        })
         if (!res.ok) throw new Error("Error al obtener la categoría")
         return await res.json()
     } catch (error) {
@@ -29,11 +35,11 @@ export async function getCategory(id) {
 }
 
 export async function createCategory(category) {
-    const res = await fetch("https://ecommerce.fedegonzalez.com/categories/", {
+    const res = await fetch(`${API_URL}/categories/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer 022",
+            Authorization: `Bearer ${API_TOKEN}`,
         },
         body: JSON.stringify(category),
     })
@@ -42,11 +48,11 @@ export async function createCategory(category) {
 }
 
 export async function updateCategory(id, category) {
-    const res = await fetch(`https://ecommerce.fedegonzalez.com/categories/${id}`, {
+    const res = await fetch(`${API_URL}/categories/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer 022",
+            Authorization: `Bearer ${API_TOKEN}`,
         },
         body: JSON.stringify(category),
     })
@@ -55,10 +61,10 @@ export async function updateCategory(id, category) {
 }
 
 export async function deleteCategory(id) {
-    const res = await fetch(`https://ecommerce.fedegonzalez.com/categories/${id}`, {
+    const res = await fetch(`${API_URL}/categories/${id}`, {
         method: "DELETE",
         headers: {
-            Authorization: "Bearer 022",
+            Authorization: `Bearer ${API_TOKEN}`,
         },
     })
     if (!res.ok) throw new Error("Error al eliminar categoría")

@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom"
 import { useCart } from "../store/cart"
+import { API_URL } from "../utils/constants"
 
 export default function ProductCard({ product }) {
 	const { add } = useCart()
-	const picture =
-		product.pictures && product.pictures.length > 0
-			? product.pictures[0]
-			: null
+
+	let picture = null
+	if (product.pictures && product.pictures.length > 0) {
+		picture = product.pictures[0]
+		if (picture && !picture.startsWith("http")) {
+			picture = `${API_URL}${picture}`
+		}
+	}
 
 	const hasDiscount = product.discount > 0
 	const finalPrice = hasDiscount
@@ -60,11 +65,9 @@ export default function ProductCard({ product }) {
 				<h3 className="text-sm font-bold text-white line-clamp-1 mb-1" title={product.title}>{product.title}</h3>
 				<p className="text-xs text-gray-400 line-clamp-2 mb-2 min-h-[2.5em]">{product.description}</p>
 				<div className="flex flex-col">
-					{hasDiscount && (
-						<span className="text-xs text-gray-500 line-through">
-							${Number(product.price).toFixed(2)}
-						</span>
-					)}
+					<span className={`text-xs text-gray-500 line-through ${!hasDiscount ? 'invisible' : ''}`}>
+						${Number(product.price).toFixed(2)}
+					</span>
 					<span className="text-xs text-purple-400 font-semibold">
 						${Number(finalPrice).toFixed(2)}
 					</span>

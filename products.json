@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1284,
+    "title": "Papa Negra",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1285,
+    "title": "Cebolla",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1286,
+    "title": "Zanahoria",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1287,
+    "title": "Lechuga Criolla",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1288,
+    "title": "Tomate Redondo",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1289,
+    "title": "Acelga",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1290,
+    "title": "Espinaca",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1291,
+    "title": "Zapallo Anco",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1292,
+    "title": "Zapallo Cabutia",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1293,
+    "title": "Batata",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1294,
+    "title": "Pimiento Rojo",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1295,
+    "title": "Pimiento Verde",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1296,
+    "title": "Ajo",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1297,
+    "title": "Perejil",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1298,
+    "title": "Albahaca",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1299,
+    "title": "Remolacha",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1300,
+    "title": "Pepino",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1301,
+    "title": "Berenjena",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1302,
+    "title": "Choclo",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1303,
+    "title": "Brocoli",
+    "category": "Verduleria"
+  },
+  {
+    "id": 1304,
+    "title": "Manzana Roja",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1305,
+    "title": "Banana Ecuador",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1306,
+    "title": "Naranja Jugo",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1307,
+    "title": "Mandarina",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1308,
+    "title": "Pera Packham",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1309,
+    "title": "Uva Negra",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1310,
+    "title": "Frutilla",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1311,
+    "title": "Kiwi",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1312,
+    "title": "Durazno",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1313,
+    "title": "Ciruela",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1314,
+    "title": "Melon Rocio",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1315,
+    "title": "Sandia",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1316,
+    "title": "Anana",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1317,
+    "title": "Limon",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1318,
+    "title": "Pomelo Rosado",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1319,
+    "title": "Palta Hass",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1320,
+    "title": "Cerezas",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1321,
+    "title": "Arandanos",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1322,
+    "title": "Mango",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1323,
+    "title": "Papaya",
+    "category": "Fruteria"
+  },
+  {
+    "id": 1324,
+    "title": "Asado de Tira",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1325,
+    "title": "Vacio",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1326,
+    "title": "Chorizo Puro Cerdo",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1327,
+    "title": "Morcilla",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1328,
+    "title": "Matambre",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1329,
+    "title": "Pechito de Cerdo",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1330,
+    "title": "Bondiola",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1331,
+    "title": "Lomo",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1332,
+    "title": "Bife de Chorizo",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1333,
+    "title": "Carne Picada Especial",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1334,
+    "title": "Milanesa de Nalga",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1335,
+    "title": "Milanesa de Pollo",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1336,
+    "title": "Pollo Entero",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1337,
+    "title": "Pata Muslo",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1338,
+    "title": "Alitas de Pollo",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1339,
+    "title": "Hamburguesa Casera",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1340,
+    "title": "Salchicha Parrillera",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1341,
+    "title": "Riñones",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1342,
+    "title": "Chinchulines",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1343,
+    "title": "Mollejas",
+    "category": "Carniceria"
+  },
+  {
+    "id": 1344,
+    "title": "Lego Star Wars",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1345,
+    "title": "Muñeca Barbie",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1346,
+    "title": "Hot Wheels Pack",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1347,
+    "title": "Pelota de Futbol",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1348,
+    "title": "Juego de Mesa",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1349,
+    "title": "Rompecabezas 1000pz",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1350,
+    "title": "Oso de Peluche",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1351,
+    "title": "Muñeco de Accion",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1352,
+    "title": "Auto Control Remoto",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1353,
+    "title": "Set de Arte",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1354,
+    "title": "Plastilina Pack",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1355,
+    "title": "Bloques Construccion",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1356,
+    "title": "Pistola de Agua",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1357,
+    "title": "Yoyo Profesional",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1358,
+    "title": "Trompo",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1359,
+    "title": "Cartas Uno",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1360,
+    "title": "Ajedrez Magnetico",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1361,
+    "title": "Domino",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1362,
+    "title": "Jenga",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1363,
+    "title": "Cubo Rubik",
+    "category": "Jugueteria"
+  },
+  {
+    "id": 1364,
+    "title": "Detergente Ala",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1365,
+    "title": "Lavandina Ayudin",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1366,
+    "title": "Jabon Liquido Ropa",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1367,
+    "title": "Suavizante Vivere",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1368,
+    "title": "Desengrasante",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1369,
+    "title": "Limpiavidrios",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1370,
+    "title": "Cera para Pisos",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1371,
+    "title": "Desodorante Ambiente",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1372,
+    "title": "Esponja Cocina",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1373,
+    "title": "Trapo de Piso",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1374,
+    "title": "Escoba",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1375,
+    "title": "Secador de Piso",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1376,
+    "title": "Pala de Basura",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1377,
+    "title": "Bolsas de Residuo",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1378,
+    "title": "Papel Higienico x4",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1379,
+    "title": "Rollo de Cocina x3",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1380,
+    "title": "Servilletas",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1381,
+    "title": "Insecticida",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1382,
+    "title": "Lustramuebles",
+    "category": "Limpieza"
+  },
+  {
+    "id": 1383,
+    "title": "Limpiador de Baño",
+    "category": "Limpieza"
+  }
+]
